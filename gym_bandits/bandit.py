@@ -35,11 +35,11 @@ class BanditEnv(gym.Env):
 
         self._seed()
 
-    def _seed(self, seed=None):
+    def seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
         return [seed]
 
-    def _step(self, action):
+    def step(self, action):
         assert self.action_space.contains(action)
 
         reward = 0
@@ -53,10 +53,10 @@ class BanditEnv(gym.Env):
 
         return 0, reward, done, {}
 
-    def _reset(self):
+    def reset(self):
         return 0
 
-    def _render(self, mode='human', close=False):
+    def render(self, mode='human', close=False):
         pass
 
 
@@ -65,24 +65,27 @@ class BanditTwoArmedDeterministicFixed(BanditEnv):
     def __init__(self):
         BanditEnv.__init__(self, p_dist=[1, 0], r_dist=[1, 1])
 
-
 class BanditTwoArmedHighLowFixed(BanditEnv):
     """Stochastic version with a large difference between which bandit pays out of two choices"""
     def __init__(self):
         BanditEnv.__init__(self, p_dist=[0.8, 0.2], r_dist=[1, 1])
-
 
 class BanditTwoArmedHighHighFixed(BanditEnv):
     """Stochastic version with a small difference between which bandit pays where both are good"""
     def __init__(self):
         BanditEnv.__init__(self, p_dist=[0.8, 0.9], r_dist=[1, 1])
 
-
 class BanditTwoArmedLowLowFixed(BanditEnv):
     """Stochastic version with a small difference between which bandit pays where both are bad"""
     def __init__(self):
         BanditEnv.__init__(self, p_dist=[0.1, 0.2], r_dist=[1, 1])
-
+        
+class BanditTwoArmedUniform(BanditEnv):
+    """Stochastic version with rewards of one and random probabilities assigned to both payouts"""
+    def __init__(self, bandits=2):
+        p_dist = np.random.uniform(size=bandits)
+        r_dist = np.full(bandits, 1)
+        BanditEnv.__init__(self, p_dist=p_dist, r_dist=r_dist)
 
 class BanditTenArmedRandomFixed(BanditEnv):
     """10 armed bandit with random probabilities assigned to payouts"""
@@ -91,14 +94,12 @@ class BanditTenArmedRandomFixed(BanditEnv):
         r_dist = np.full(bandits, 1)
         BanditEnv.__init__(self, p_dist=p_dist, r_dist=r_dist)
 
-
 class BanditTenArmedUniformDistributedReward(BanditEnv):
-    """10 armed bandit with that always pays out with a reward selected from a uniform distribution"""
+    """10 armed bandit that always pays out with a reward selected from a uniform distribution"""
     def __init__(self, bandits=10):
         p_dist = np.full(bandits, 1)
         r_dist = np.random.uniform(size=bandits)
         BanditEnv.__init__(self, p_dist=p_dist, r_dist=r_dist)
-
 
 class BanditTenArmedRandomRandom(BanditEnv):
     """10 armed bandit with random probabilities assigned to both payouts and rewards"""
@@ -106,7 +107,6 @@ class BanditTenArmedRandomRandom(BanditEnv):
         p_dist = np.random.uniform(size=bandits)
         r_dist = np.random.uniform(size=bandits)
         BanditEnv.__init__(self, p_dist=p_dist, r_dist=r_dist)
-
 
 class BanditTenArmedGaussian(BanditEnv):
     """
