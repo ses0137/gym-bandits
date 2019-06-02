@@ -19,7 +19,7 @@ your weights against the true values for plotting results of various algorithms
 * `BanditTwoArmedHighLowFixed-v0`: Stochastic version with a large difference between which bandit pays out of two choices
 * `BanditTwoArmedHighHighFixed-v0`: Stochastic version with a small difference between which bandit pays where both are good
 * `BanditTwoArmedLowLowFixed-v0`: Stochastic version with a small difference between which bandit pays where both are bad
-* `BanditTwoArmedRandom-v0`: Stochastic version both arms pay between 0 and 1
+* `BanditTwoArmedUniform-v0`: Stochastic version both arms pay between 0 and 1
 * `BanditTenArmedRandomFixed-v0`: 10 armed bandit with random probabilities assigned to payouts
 * `BanditTenArmedRandomRandom-v0`: 10 armed bandit with random probabilities assigned to both payouts and rewards
 * `BanditTenArmedUniformDistributedReward-v0`: 10 armed bandit with that always pays out with a reward selected from a uniform distribution
